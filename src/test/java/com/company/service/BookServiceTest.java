@@ -1,5 +1,6 @@
 package com.company.service;
 
+import com.company.model.Book;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ class BookServiceTest {
         System.out.println("trying to run setup");
         try {
             bookService = new BookService();
-            assertEquals(3, bookService.getNrOfBooks());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ class BookServiceTest {
 
         bookService.addBook(book);
 
-        assertEquals(4,bookService.getNrOfBooks());
+        assertEquals(5,bookService.getNrOfBooks());
 
 
     }
@@ -52,10 +52,10 @@ class BookServiceTest {
         book.setAuthorName("wefwefwefwefwefwefwf");
 
         bookService.addBook(book);
+        int a=bookService.getNrOfBooks()-1;
+        assertEquals(bookService.getBookByIndex(a),book);
 
-        assertEquals(bookService.getBookByIndex(3),book);
-
-        bookService.insetInIndex(0, book);
+        bookService.insertInIndex(0, book);
 
         assertEquals(bookService.getBookByIndex(0),book);
 
@@ -64,15 +64,29 @@ class BookServiceTest {
     @Test
     void getBookByName() {
         System.out.println("trying to run getBookByName");
+        Book book = new Book();
+        book.setNameOfTheBook("Vlad");
+        book.setPriceInEuros(200);
+        bookService.addBook(book);
+        bookService.getBookByName("Vlad");
+        assertEquals(200,bookService.getBookByName("Vlad").getPrice());
     }
 
     @Test
     void updateBook() {
         System.out.println("trying to run updateBook");
+        Book book = new Book();
+        book.setNameOfTheBook("Radu");
+        book.setPriceInEuros(100);
+        bookService.updateBook(bookService.getBookByName("Fashion Magazine"),book);
+        assertEquals(100,bookService.getBookByName("Radu").getPrice());
     }
 
     @Test
     void deleteBook() {
         System.out.println("trying to run deleteBook");
+        int a= bookService.getNrOfBooks();
+        bookService.deleteBook(bookService.getBookByName("Fashion Magazine"));
+        assertEquals(a-1,bookService.getNrOfBooks());
     }
 }

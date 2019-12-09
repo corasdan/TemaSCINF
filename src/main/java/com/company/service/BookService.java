@@ -3,18 +3,16 @@ package com.company.service;
 import com.company.model.Atlas;
 import com.company.model.Book;
 import com.company.model.Magazine;
+import com.company.util.IllegalTypeException;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookService {
     private List<Book> listOfBooks;
     public BookService() throws FileNotFoundException{
-        populateResource();
+            populateResource();
     }
     //CRUD
 
@@ -24,40 +22,48 @@ public class BookService {
         //load from file
         int lineCounter = 0;//variable that retains the number of lines in the file
         listOfBooks= new ArrayList<>();
-        String currentUserDir = System.getProperty("user.dir") + "\\test.txt";
-        try {
-            FileReader file = new FileReader(currentUserDir);
-            BufferedReader objReader = new BufferedReader(file);
-            String strCurrentLine;
+        String currentUserDir = System.getProperty("user.dir") + "\\src\\main\\resources\\test.txt";
+        try(FileReader file = new FileReader(currentUserDir);
+            BufferedReader objReader = new BufferedReader(file)) {           //try-with-resources implementation
+            String strCurrentLine;                                          //A string containing the entire line read from the file
             while ((strCurrentLine = objReader.readLine()) != null) {
-                String[] array = strCurrentLine.split("//");//array in which each indexed element is the AuthorName/NameOfTheBook/etc.
-                if (array.length > 1) {
-                    switch (array[2]) {
+                String[] currentLineArray = strCurrentLine.split("//");// A string array in which each indexed element is the AuthorName/NameOfTheBook/etc.
+                if (currentLineArray.length > 1) {
+                    String BookType = currentLineArray[2];                             //The third element of the array always holds the Book Type
+                    switch (BookType) {
                         case "Atlas":
                             Book a = new Atlas();
-                            a.setNameOfTheBook(array[0]);
-                            a.setAuthorName(array[1]);
-                            Double d1 = Double.valueOf(array[3]);
+                            a.setNameOfTheBook(currentLineArray[0]);
+                            a.setAuthorName(currentLineArray[1]);
+                            Double d1 = 0.0;
+                            try {
+                                d1 = parseDouble(currentLineArray[3]);
+                            } catch (IllegalTypeException e) {
+                                System.out.println(e.getMessage());
+                            }
                             a.setPriceInEuros(d1);
                             listOfBooks.add(a);
-                            lineCounter++;
                             break;
                         case "Magazine":
                             Book r = new Magazine();
-                            r.setNameOfTheBook(array[0]);
-                            r.setAuthorName(array[1]);
-                            Double d2 = Double.valueOf(array[3]);
+                            r.setNameOfTheBook(currentLineArray[0]);
+                            r.setAuthorName(currentLineArray[1]);
+                            Double d2 = 0.0;
+                            try {
+                                d2 = parseDouble(currentLineArray[3]);
+                            } catch (IllegalTypeException e) {
+                                System.out.println(e.getMessage());
+                            }
                             r.setPriceInEuros(d2);
                             listOfBooks.add(r);
-                            lineCounter++;
                             break;
                         default:
                             System.out.println("Nu se incadreaza!!");
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch(IOException e){
+            throw new FileNotFoundException();
         }
     }
 
@@ -65,7 +71,7 @@ public class BookService {
         listOfBooks.add(book);
     }
 
-    public void insetInIndex(int index ,Book book){
+    public void insertInIndex(int index , Book book){
         listOfBooks.add(index, book);
     }
 
@@ -106,5 +112,18 @@ public class BookService {
 
     public int getNrOfBooks(){
         return listOfBooks.size();
+    }
+
+    /*
+    Parsing double values introduced as a parameter
+     */
+    public static Double parseDouble(String d)throws IllegalTypeException{
+        Double value;
+        try{
+            value= Double.valueOf(d);
+        }catch (NumberFormatException e){
+            throw new IllegalTypeException("Value should be of type double");
+        }
+        return value;
     }
 }

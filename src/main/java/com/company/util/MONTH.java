@@ -6,12 +6,15 @@ public enum MONTH {
     MAY(5), JUN(6), JUL(7), AUG(8),
     SEP(9), OCT(10), NOV(11), DEC(12);
 
-    private final int number;
+    private int number;
 
     private MONTH(int number){
         this.number=number;
     }
 
+    public void setNumber(int number){
+        this.number=number;
+    }
 
     public int getNumber() {
         return number;

@@ -4,6 +4,7 @@ import com.company.model.Atlas;
 import com.company.model.Book;
 import com.company.model.Magazine;
 import com.company.util.IllegalTypeException;
+import com.company.util.MONTH;
 import com.company.util.myList;
 
 import java.io.*;
@@ -16,7 +17,7 @@ public class Main {
         myList<Book> list = new myList<>();
         HashSet<Book> hash = new HashSet<>();
 
-        String currentUserDir = System.getProperty("user.dir") + "\\test.txt";
+        String currentUserDir = System.getProperty("user.dir") + "\\src\\main\\resources\\test.txt";
         try(FileReader file = new FileReader(currentUserDir);
             BufferedReader objReader = new BufferedReader(file)){           //try-with-resources implementation
             String strCurrentLine;                                          //A string containing the entire line read from the file
@@ -26,7 +27,7 @@ public class Main {
                     String BookType=currentLineArray[2];                             //The third element of the array always holds the Book Type
                     switch (BookType) {
                         case "Atlas":
-                            Book a = new Atlas();
+                            Atlas a = new Atlas();
                             a.setNameOfTheBook(currentLineArray[0]);
                             a.setAuthorName(currentLineArray[1]);
                             Double d1=0.0;
@@ -39,7 +40,7 @@ public class Main {
                             list.add(a);
                             break;
                         case "Magazine":
-                            Book r = new Magazine();
+                            Magazine r = new Magazine();
                             r.setNameOfTheBook(currentLineArray[0]);
                             r.setAuthorName(currentLineArray[1]);
                             Double d2=0.0;
@@ -49,6 +50,13 @@ public class Main {
                                 System.out.println(e.getMessage());
                             }
                             r.setPriceInEuros(d2);
+                            int a1 = 0;
+                            try{
+                                a1 = parseInteger(currentLineArray[4]);
+                            }catch (IllegalTypeException e){
+                                System.out.println(e.getMessage());
+                            }
+                            r.setEdition(a1);
                             list.add(r);
                             break;
                         default:
@@ -63,8 +71,13 @@ public class Main {
 
         int size = list.size();                 //size of the list equals the number of lines in the file
         for (int i = 0; i < size; i++) {
-            System.out.println(list.get(i).getNameOfTheBook() + " " + list.get(i).getAuthorName() + " " +
-                    list.get(i).getPrice());
+            if(list.get(i) instanceof Magazine){
+                System.out.println(list.get(i).getNameOfTheBook() + " " + list.get(i).getAuthorName() + " " +
+                        list.get(i).getPrice()+" "+((Magazine) list.get(i)).getEdition());
+            }else if(list.get(i) instanceof Atlas){
+                System.out.println(list.get(i).getNameOfTheBook() + " " + list.get(i).getAuthorName() + " " +
+                        list.get(i).getPrice());
+            }
         }
 
         // adaugarea in HashSet a elementelor din lista
@@ -79,6 +92,8 @@ public class Main {
 
         }
 
+        MONTH[] mn = MONTH.values();
+
         //Scrierea in ArrayStr a elementelor, fara duplicate
         String[] ArrayStr = new String[lineCounter];
         System.out.println(" ");
@@ -86,7 +101,13 @@ public class Main {
         int i=0;
         while(itr.hasNext()){
             Book element=(Book) itr.next();
-            ArrayStr[i] = element.getNameOfTheBook() +" " + element.getAuthorName()+" "+element.getPrice();
+            if(element instanceof Magazine){
+                int number=((Magazine) element).getEdition();
+                ArrayStr[i] = element.getNameOfTheBook() +" " + element.getAuthorName()+" "+element.getPrice()+" "+mn[number-1];
+            }else if(element instanceof Atlas){
+                ArrayStr[i] = element.getNameOfTheBook() +" " + element.getAuthorName()+" "+element.getPrice();
+            }
+
             i++;
             //each indexed element of ArrayStr contains a concatenated line of list elements
         }
@@ -106,7 +127,7 @@ public class Main {
      * @param noOfLines
      */
     private static void writeUsingBufferedWriter(String[] ArrayStr, int noOfLines) {
-        String currentUserDir = System.getProperty("user.dir") + "\\FileToWrite.txt";
+        String currentUserDir = System.getProperty("user.dir") + "\\src\\main\\resources\\FileToWrite.txt";
         File file = new File(currentUserDir);
         try (FileWriter fr = new FileWriter(file);
              BufferedWriter br = new BufferedWriter(fr)){           //try-with-resources implementation
@@ -132,6 +153,16 @@ public class Main {
             throw new IllegalTypeException("Value should be of type double");
         }
         return value;
+    }
+
+    public static Integer parseInteger(String d) throws IllegalTypeException {
+        Integer number;
+        try{
+            number= Integer.valueOf(d);
+        }catch (NumberFormatException e){
+            throw new IllegalTypeException("Value should be of type Integer");
+        }
+        return number;
     }
 
 }
