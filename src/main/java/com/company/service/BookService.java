@@ -4,6 +4,9 @@ import com.company.model.Atlas;
 import com.company.model.Book;
 import com.company.model.Magazine;
 import com.company.util.IllegalTypeException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,15 +14,23 @@ import java.util.List;
 
 public class BookService {
     private List<Book> listOfBooks;
+
+    private static Logger logger = LogManager.getLogger(BookService.class);
+
     public BookService() throws FileNotFoundException{
-            populateResource();
+        logger.log(Level.INFO, "incep populare", listOfBooks);
+        populateResource();
+        logger.log(Level.INFO, "termin populare",listOfBooks);
+
     }
     //CRUD
+
 
     //C create
 
     public void populateResource()throws FileNotFoundException{
         //load from file
+        logger.log(Level.INFO, "in operatiune de populare");
         int lineCounter = 0;//variable that retains the number of lines in the file
         listOfBooks= new ArrayList<>();
         String currentUserDir = System.getProperty("user.dir") + "\\src\\main\\resources\\test.txt";
@@ -43,6 +54,7 @@ public class BookService {
                             }
                             a.setPriceInEuros(d1);
                             listOfBooks.add(a);
+                            logger.log(Level.INFO, "gasit atlas");
                             break;
                         case "Magazine":
                             Book r = new Magazine();
@@ -56,6 +68,7 @@ public class BookService {
                             }
                             r.setPriceInEuros(d2);
                             listOfBooks.add(r);
+                            logger.log(Level.INFO, "gasit magazine");
                             break;
                         default:
                             System.out.println("Nu se incadreaza!!");

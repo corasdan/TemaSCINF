@@ -1,0 +1,65 @@
+[INFO ] 2019-12-20 17:32:25.950 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 17:32:26.207 [main] ModelService - there was an error calling insertBookInInventory
+[INFO ] 2019-12-20 17:33:02.639 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 17:33:02.858 [main] DBConnectionService - DB connection failed
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database may be already in use: null. Possible solutions: close all other connection(s); use the server mode [90020-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:622) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.message.DbException.get(DbException.java:194) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.mvstore.db.MVTableEngine$Store.convertIllegalStateException(MVTableEngine.java:206) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:182) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Database.getPageStore(Database.java:2659) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Database.open(Database.java:675) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Database.openDatabase(Database.java:307) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Database.<init>(Database.java:301) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Engine.openSession(Engine.java:74) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Engine.openSession(Engine.java:192) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Engine.createSession(Engine.java:166) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Engine.createSession(Engine.java:29) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.Driver.connect(Driver.java:69) ~[h2-1.4.200.jar:1.4.200]
+	at java.sql.DriverManager.getConnection(DriverManager.java:677) ~[java.sql:?]
+	at java.sql.DriverManager.getConnection(DriverManager.java:228) ~[java.sql:?]
+	at com.company.util.DBConnectionService.<init>(DBConnectionService.java:46) [classes/:?]
+	at com.company.util.DBConnectionService.getInstance(DBConnectionService.java:55) [classes/:?]
+	at com.company.Repository.ModelRepository.<init>(ModelRepository.java:23) [classes/:?]
+	at com.company.service.ModelService.<init>(ModelService.java:17) [classes/:?]
+	at exemple.DBMain.main(DBMain.java:8) [classes/:?]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/Coras/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.mvstore.FileStore.open(FileStore.java:172) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170) ~[h2-1.4.200.jar:1.4.200]
+	... 21 more
+[ERROR] 2019-12-20 17:33:02.879 [main] ModelService - there was an error calling insertBookInInventory
+[INFO ] 2019-12-20 17:36:18.079 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 17:36:18.155 [main] ModelService - there was an error calling insertBookInInventory
+[INFO ] 2019-12-20 17:43:57.011 [main] DBConnectionService - Connecting to database...
+[INFO ] 2019-12-20 18:29:39.851 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 18:29:39.938 [main] ModelService - there was an error calling updateBookInInventory
+[INFO ] 2019-12-20 18:30:02.076 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 18:30:02.174 [main] ModelService - there was an error calling updateBookInInventory
+[INFO ] 2019-12-20 18:30:48.230 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 18:30:48.353 [main] ModelService - there was an error calling updateBookInInventory
+[INFO ] 2019-12-20 18:34:47.050 [main] DBConnectionService - Connecting to database...
+[INFO ] 2019-12-20 19:29:11.890 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 19:29:11.966 [main] ModelService - there was an error calling getBookInInventory
+[INFO ] 2019-12-20 19:29:38.447 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 19:29:38.531 [main] ModelService - there was an error calling getBookInInventory
+[INFO ] 2019-12-20 19:33:01.472 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 19:33:01.556 [main] ModelService - there was an error calling getBookInInventory
+[INFO ] 2019-12-20 19:33:53.694 [main] DBConnectionService - Connecting to database...
+[INFO ] 2019-12-20 19:34:41.724 [main] DBConnectionService - Connecting to database...
+[INFO ] 2019-12-20 19:36:51.667 [main] DBConnectionService - Connecting to database...
+[INFO ] 2019-12-20 19:37:38.432 [main] DBConnectionService - Connecting to database...
+[INFO ] 2019-12-20 19:44:20.734 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 19:44:20.841 [main] ModelService - there was an error calling getBookInInventory
+[INFO ] 2019-12-20 19:44:37.897 [main] DBConnectionService - Connecting to database...
+[ERROR] 2019-12-20 19:44:38.000 [main] ModelService - there was an error calling getBookInInventory
+[INFO ] 2019-12-20 19:46:06.227 [main] DBConnectionService - Connecting to database...
+[INFO ] 2019-12-20 20:12:38.419 [main] DBConnectionService - Connecting to database...
